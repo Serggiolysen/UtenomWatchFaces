@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/checkWearFragment">
+
+
+    <fragment
+        android:id="@+id/mainScreenFragment"
+        android:name="one.hix.myapplication.ui.MainScreenFragment"
+        android:label="MainScreenFragment"
+        tools:layout="@layout/fragment_main_screen">
+        <action
+            android:id="@+id/action_mainScreenFragment_to_imageCoseFragment"
+            app:destination="@id/imageChooseFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_imageSetToWearFragment"
+            app:destination="@id/imageSetToWearFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/imageChooseFragment"
+        android:name="one.hix.myapplication.ui.ImageChooseFragment"
+        android:label="ImageCoseFragment"
+        tools:layout="@layout/fragment_image_choose"/>
+    <fragment
+        android:id="@+id/imageSetToWearFragment"
+        android:name="one.hix.myapplication.ui.ImageSetToWearFragment"
+        android:label="ImageSetToWearFragment"
+        tools:layout="@layout/fragment_set_to_wear"/>
+    <fragment
+        android:id="@+id/checkWearFragment"
+        android:name="one.hix.myapplication.ui.CheckWearFragment"
+        android:label="CheckWearFragment"
+        tools:layout="@layout/check_wear_fragment">
+        <action
+            android:id="@+id/action_checkWearFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+    </fragment>
+
+</navigation>

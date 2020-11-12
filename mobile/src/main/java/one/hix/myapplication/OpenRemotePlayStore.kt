@@ -28,13 +28,14 @@ class OpenRemotePlayStore(private val applicationContext: Context) : OnCapabilit
 
 
     fun initWearListener(context: Context) {
-        println("ssss ----2")
-        Wearable.getCapabilityClient(context).addListener(this, CAPABILITY_WEAR_APP)
 
+        Wearable.getCapabilityClient(context).addListener(this, CAPABILITY_WEAR_APP)
         val capabilityInfoTask = Wearable.getCapabilityClient(applicationContext)
             .getCapability(CAPABILITY_WEAR_APP, CapabilityClient.FILTER_ALL)
+
         capabilityInfoTask.addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                println("ssss ----5")
                 val capabilityInfo = task.result
                 mWearNodesWithApp = capabilityInfo!!.nodes
                 verifyNodeAndUpdateUI()
@@ -83,6 +84,7 @@ class OpenRemotePlayStore(private val applicationContext: Context) : OnCapabilit
         val NodeListTask = Wearable.getNodeClient(applicationContext).connectedNodes
         NodeListTask.addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                println("ssss task  successful")
                 mAllConnectedNodes = task.result
             } else {
                 println("ssss task is not successful - 2")

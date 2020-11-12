@@ -1,8 +1,11 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">UtenomWatchFace</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
+    <string name="hello_world">Hello !</string>
+    <string name="bye">bye</string>
+    <string name="message">message</string>
+
 </resources>

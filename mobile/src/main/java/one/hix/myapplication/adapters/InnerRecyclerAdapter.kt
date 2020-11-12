@@ -15,7 +15,6 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 
-
 class InnerRecyclerAdapter(private val uriTempList: ArrayList<String>) : RecyclerView.Adapter<InnerRecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InnerRecyclerAdapter.ViewHolder =
@@ -47,7 +46,6 @@ class InnerRecyclerAdapter(private val uriTempList: ArrayList<String>) : Recycle
                 image.setOnClickListener {
                     findNavController(it).navigate(R.id.imageChooseFragment, params)
                 }
-
 
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()

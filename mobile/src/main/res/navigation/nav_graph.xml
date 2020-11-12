@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/checkWearFragment">
+    app:startDestination="@id/mainScreenFragment">
 
 
     <fragment
@@ -34,13 +34,9 @@
         android:label="ImageSetToWearFragment"
         tools:layout="@layout/fragment_set_to_wear"/>
     <fragment
-        android:id="@+id/checkWearFragment"
-        android:name="one.hix.myapplication.ui.CheckWearFragment"
-        android:label="CheckWearFragment"
-        tools:layout="@layout/check_wear_fragment">
-        <action
-            android:id="@+id/action_checkWearFragment_to_mainScreenFragment"
-            app:destination="@id/mainScreenFragment" />
-    </fragment>
+        android:id="@+id/splashFragment"
+        android:name="one.hix.myapplication.ui.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash"/>
 
 </navigation>

@@ -12,21 +12,21 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.wearable.Wearable
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.wearable.*
 import one.hix.myapplication.OpenRemotePlayStore
 import one.hix.myapplication.R
 import one.hix.myapplication.adapters.CategoriesRecyclerAdapter
@@ -54,15 +54,16 @@ class MainScreenFragment : Fragment() {
     }
 
     private lateinit var pageViewModel: PageViewModel
-    val PICK_IMAGE = 1
-    val IMAGE_PATH = 2
+    private val PICK_IMAGE = 1
+    private val IMAGE_PATH = 2
 
     //    private lateinit var dataClient: DataClient
     private var count = 0
     private lateinit var openRemotePlayStore: OpenRemotePlayStore
-    lateinit var recyclerViewWithCategories: RecyclerView
-    lateinit var categoriesRecyclerAdapterdapter: CategoriesRecyclerAdapter
-    var categoryList = arrayListOf<Category>()
+    private lateinit var recyclerViewWithCategories: RecyclerView
+    private lateinit var categoriesRecyclerAdapterdapter: CategoriesRecyclerAdapter
+    private var categoryList = arrayListOf<Category>()
+    private var mAllConnectedNodes: MutableList<Node>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,25 +109,7 @@ class MainScreenFragment : Fragment() {
             showPicsAppChooser()
         }
 
-        checkRemoteWearAppInstalled(view)
 
-    }
-
-    fun checkRemoteWearAppInstalled(view: View):Boolean{
-//        val dataClient = Wearable.getDataClient(requireContext())
-//        val appPackageName = "one.hix.myapplication"
-        val appPackageName = "io.faceapp"
-
-        openRemotePlayStore = OpenRemotePlayStore(requireContext())
-        openRemotePlayStore.initWearListener(requireContext())
-
-        view.findViewById<Button>(R.id.buttonPanel).setOnClickListener {
-//            ++count
-//            increaseCounter(dataClient, appPackageName)
-            openRemotePlayStore.openPlayStoreOnWearDevicesWithoutApp(requireContext(), appPackageName)
-
-        }
-        return true
     }
 
 
@@ -148,14 +131,14 @@ class MainScreenFragment : Fragment() {
         }
     }
 
-
+    //копируем все файлы из ассетов в data
     private fun initCategoryList(categoryList: ArrayList<Category>) {
         val listFilesInDir = File(context?.filesDir!!.parent).listFiles()
         println("sssss listFilesInDir.size ${listFilesInDir.size}")
 
         if (listFilesInDir.size < 30) {
             val assetFiles = requireContext().assets.list("")
-            assetFiles.forEach {
+            assetFiles!!.forEach {
                 if (it.contains("jpg")) {
                     println("sssss ${it}")
                     val inputStream = requireContext().assets.open(it)
@@ -253,4 +236,16 @@ class MainScreenFragment : Fragment() {
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
         startActivityForResult(chooserIntent, PICK_IMAGE)
     }
+
+    fun sendStringToWear() {
+        val putDataReq= PutDataMapRequest.create("/test").run {
+            dataMap.putString("key", "TEST TEXT")
+            asPutDataRequest()
+        }
+        //dataItem
+        Wearable.getDataClient(requireContext()).putDataItem(putDataReq)
+    }
+
+
+
 }
